@@ -58,6 +58,7 @@ function App() {
                 }
             };
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Realtime подписка (только если supabase доступен)
@@ -87,7 +88,6 @@ function App() {
     };
 
     // Функция для поддержания активности БД
-    // Функция для поддержания активности БД
     const startKeepAlive = () => {
         if (!supabase) return;
 
@@ -96,7 +96,7 @@ function App() {
                 console.log('🔄 Keep-alive запрос...');
 
                 // Используем обычный запрос к таблице с правильной авторизацией
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('donaters')
                     .select('id')
                     .limit(1);
@@ -358,7 +358,7 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    // ВИДЖЕТ (только просмотр) <div className="donater-rank">•</div>
+                    // ВИДЖЕТ (только просмотр)
                     <div className="widget-view">
                         <div className="donaters-list">
                             {donaters.length === 0 ? (
@@ -369,7 +369,7 @@ function App() {
                                         <div className="donater-info">
                                             <span className="donater-name">{donater.username}</span>
                                             <span className="donater-separator"> — </span>
-                                            <span className="donater-amount">{donater.total_amount} руб.</span>
+                                            <span className="donater-amount">{donater.total_amount} ₽</span>
                                         </div>
                                     </div>
                                 ))
