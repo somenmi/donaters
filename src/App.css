@@ -42,6 +42,7 @@
   max-width: 600px;
   margin: 0 auto;
   background: transparent;
+  padding: 10px;
 }
 
 .widget-header {
@@ -482,9 +483,133 @@
   color: #ac8e8e;
 }
 
+/* Стили для кнопок соцсетей */
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 20px 30px 20px;
+  flex-wrap: wrap;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-width: 10px;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  filter: opacity(0.5);
+}
+
+.social-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.social-icon {
+  font-size: 16px;
+}
+
+/* Twitch - фиолетовый */
+.social-btn.twitch {
+  background: linear-gradient(135deg, #6441a5 0%, #4B367C 100%);
+  color: white;
+  border-color: #7E5BCC;
+  width: 90px;
+}
+
+.social-btn.twitch:hover {
+  background: linear-gradient(135deg, #7E5BCC 0%, #6441a5 100%);
+  box-shadow: 0 5px 15px rgba(100, 65, 165, 0.4);
+  filter: opacity(1);
+}
+
+/* YouTube - красный */
+.social-btn.youtube {
+  background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+  color: white;
+  border-color: #FF3333;
+  width: 90px;
+
+}
+
+.social-btn.youtube:hover {
+  background: linear-gradient(135deg, #FF3333 0%, #FF0000 100%);
+  box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+  filter: opacity(1);
+}
+
+/* Telegram - голубой */
+.social-btn.telegram {
+  background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+  color: white;
+  border-color: #00A2E8;
+  width: 90px;
+}
+
+.social-btn.telegram:hover {
+  background: linear-gradient(135deg, #00A2E8 0%, #0088cc 100%);
+  box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+  filter: opacity(1);
+}
+
+@media (max-width: 480px) {
+  .social-buttons {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .social-icon {
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 768px) {
+  .social-buttons {
+    gap: 8px;
+    margin: 15px 0 25px 0;
+  }
+
+  .social-btn {
+    padding: 8px 12px;
+    width: 10px;
+    gap: 0;
+    font-size: 0;
+  }
+
+  .social-icon {
+    font-size: 20px;
+  }
+
+  .social-btn.twitch {
+    width: 22px;
+    height: 30px;
+    border-radius: 50px;
+  }
+
+  .social-btn.social-btn.youtube {
+    width: 22px;
+    height: 30px;
+    border-radius: 50px;
+  }
+
+  .social-btn.telegram {
+    width: 22px;
+    height: 30px;
+    border-radius: 50px;
+  }
+
   .widget-container {
-    margin: 10px;
     padding: 15px;
   }
 
@@ -509,38 +634,54 @@
     flex-direction: column;
     text-align: center;
     gap: 10px;
+    margin: -8px;
   }
 
   .donater-info {
     flex-direction: row;
-    gap: 5px;
+    gap: 8px;
   }
 
   .rank-first .donater-name {
-    font-size: 18px;
+    font-size: 22px;
   }
 
   .rank-first .donater-amount {
-    font-size: 16px;
-  }
-
-  .rank-second .donater-name {
     font-size: 18px;
   }
 
+  .rank-first {
+    margin-top: -8px;
+  }
+
+  .rank-second .donater-name {
+    font-size: 20px;
+  }
+
   .rank-second .donater-amount {
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  .rank-second {
+    margin-top: 2px;
   }
 
   .rank-third .donater-name {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .rank-third .donater-amount {
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  .rank-third {
+    margin: 4px;
+    margin-bottom: 6px;
   }
 
   .rank-other .donater-name {
+    display: flex;
     font-size: 14px;
+
   }
 }
