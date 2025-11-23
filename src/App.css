@@ -1,38 +1,336 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background: linear-gradient(135deg, #6441a5 0%, #2a0845 100%);
   min-height: 100vh;
+  padding: 20px;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+.widget-container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.widget-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.widget-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffd700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.admin-toggle {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.admin-toggle:hover {
+  background: #ff5252;
+  transform: translateY(-2px);
+}
+
+/* Стили админки */
+.admin-panel {
+  text-align: left;
+}
+
+.donation-form {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 16px;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.add-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s;
+  min-width: 120px;
+}
+
+.add-button:hover:not(:disabled) {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.add-button:disabled {
+  background: #757575;
+  cursor: not-allowed;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.clear-button, .refresh-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  flex: 1;
+  min-width: 150px;
+  transition: all 0.3s;
+}
+
+.clear-button {
+  background: #f44336;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.clear-button:hover {
+  background: #da190b;
+  transform: translateY(-2px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.refresh-button {
+  background: #2196f3;
+  color: white;
+}
+
+.refresh-button:hover {
+  background: #0b7dda;
+  transform: translateY(-2px);
+}
+
+.preview-section {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.preview-section h3 {
+  margin: 0 0 15px 0;
+  color: #ffd700;
+  text-align: center;
+}
+
+.preview-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.preview-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.preview-rank {
+  font-weight: bold;
+  min-width: 40px;
+}
+
+.preview-name {
+  font-weight: bold;
+}
+
+.preview-amount {
+  color: #ffd700;
+}
+
+/* Стили виджета */
+.widget-view {
+  text-align: left;
+}
+
+.donaters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.no-donaters {
+  text-align: center;
+  color: #ccc;
+  font-style: italic;
+  padding: 40px;
+}
+
+.donater-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.donater-card:hover {
+  transform: translateX(5px);
+}
+
+.donater-rank {
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 50px;
+}
+
+.donater-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.donater-name {
+  font-weight: bold;
+}
+
+.donater-separator {
+  color: #ccc;
+}
+
+.donater-amount {
+  font-weight: bold;
+}
+
+/* Стили для рангов */
+.rank-first {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
+  color: #2a0845;
+  border-color: #ffd700;
+}
+
+.rank-first .donater-amount {
+  color: #2a0845;
+}
+
+.rank-second {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+  color: #2a0845;
+  border-color: #c0c0c0;
+}
+
+.rank-second .donater-amount {
+  color: #2a0845;
+}
+
+.rank-third {
+  background: linear-gradient(135deg, #cd7f32 0%, #e8b886 100%);
+  color: #2a0845;
+  border-color: #cd7f32;
+}
+
+.rank-third .donater-amount {
+  color: #2a0845;
+}
+
+.rank-other {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rank-other .donater-amount {
+  color: #ffd700;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .widget-container {
+    margin: 10px;
+    padding: 15px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .widget-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .input-group {
+    min-width: 100%;
+  }
+  
+  .admin-actions {
+    flex-direction: column;
+  }
+  
+  .donater-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .donater-info {
+    flex-direction: column;
+    gap: 5px;
   }
 }
