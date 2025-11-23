@@ -6,19 +6,29 @@ import './App.css';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Missing Supabase environment variables');
+// Временно отключаем если нет ключей
+let supabase;
+if (supabaseUrl && supabaseKey) {
+    supabase = createClient(supabaseUrl, supabaseKey);
+} else {
+    console.warn('Supabase keys not found - running in demo mode');
 }
-
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 function App() {
     const [donaters, setDonaters] = useState([]);
     const [username, setUsername] = useState('');
     const [amount, setAmount] = useState('');
-    const [isAdmin, setIsAdmin] = useState(true); // По умолчанию админка
+    const [isAdmin, setIsAdmin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [password, setPassword] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    // Пароль для админки (замени на свой!)
+    const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
+
+    if (!ADMIN_PASSWORD) {
+        console.error('REACT_APP_ADMIN_PASSWORD not set in environment variables');
+    }
     // Загружаем топ донатеров и настраиваем режим
     useEffect(() => {
         // Автоматически определяем режим по URL параметру
@@ -26,16 +36,34 @@ function App() {
         const viewMode = urlParams.get('view');
 
         if (viewMode === 'widget') {
-            setIsAdmin(false); 
+            setIsAdmin(false);
+            setIsAuthenticated(false);
+        } else {
+            const savedAuth = localStorage.getItem('admin_authenticated');
+            if (savedAuth === 'true') {
+                setIsAuthenticated(true);
+            }
         }
 
-        loadTopDonaters();
-        setupRealtimeSubscription();
-        startKeepAlive(); // Запускаем поддержку активности БД
+        if (supabase) {
+            loadTopDonaters();
+            setupRealtimeSubscription();
+            const cleanup = startKeepAlive(); // Сохраняем функцию очистки
+
+            // Очистка при размонтировании
+            return () => {
+                if (cleanup) cleanup();
+                if (supabase) {
+                    supabase.removeChannel(supabase.channel('donaters-changes'));
+                }
+            };
+        }
     }, []);
 
-    // Realtime подписка
+    // Realtime подписка (только если supabase доступен)
     const setupRealtimeSubscription = () => {
+        if (!supabase) return;
+
         const channel = supabase
             .channel('donaters-changes')
             .on(
@@ -52,33 +80,63 @@ function App() {
             .subscribe();
 
         return () => {
-            supabase.removeChannel(channel);
+            if (supabase) {
+                supabase.removeChannel(channel);
+            }
         };
     };
 
     // Функция для поддержания активности БД
+    // Функция для поддержания активности БД
     const startKeepAlive = () => {
-        // Каждые 30 дней делаем запрос чтобы БД не удалилась
-        setInterval(async () => {
-            try {
-                await supabase
-                    .from('donaters')
-                    .select('count')
-                    .limit(1);
-                console.log('Keep-alive запрос выполнен');
-            } catch (error) {
-                console.log('Keep-alive ошибка:', error);
-            }
-        }, 25 * 24 * 60 * 60 * 1000); // 25 дней
+        if (!supabase) return;
 
-        // Также делаем запрос при каждой загрузке страницы
-        supabase
-            .from('donaters')
-            .select('count')
-            .limit(1);
+        const makeKeepAliveRequest = async () => {
+            try {
+                console.log('🔄 Keep-alive запрос...');
+
+                // Используем обычный запрос к таблице с правильной авторизацией
+                const { data, error } = await supabase
+                    .from('donaters')
+                    .select('id')
+                    .limit(1);
+
+                if (error) {
+                    console.log('❌ Keep-alive ошибка:', error.message);
+                } else {
+                    console.log('✅ Keep-alive успешно выполнен');
+                }
+            } catch (error) {
+                console.log('❌ Keep-alive исключение:', error.message);
+            }
+        };
+
+        // Выполняем первый запрос сразу
+        makeKeepAliveRequest();
+
+        // Интервал на 24 часа (86,400,000 миллисекунд)
+        const keepAliveInterval = 24 * 60 * 60 * 1000;
+        const intervalId = setInterval(makeKeepAliveRequest, keepAliveInterval);
+
+        console.log(`🕐 Keep-alive запущен, интервал: 24 часа`);
+
+        // Возвращаем функцию очистки
+        return () => {
+            clearInterval(intervalId);
+            console.log('🛑 Keep-alive остановлен');
+        };
     };
 
     const loadTopDonaters = async () => {
+        if (!supabase) {
+            // Демо данные если Supabase не доступен
+            setDonaters([
+                { id: 1, username: 'DEMO_USER', total_amount: 1000 },
+                { id: 2, username: 'TEST_USER', total_amount: 500 }
+            ]);
+            return;
+        }
+
         try {
             const { data, error } = await supabase
                 .from('donaters')
@@ -96,9 +154,32 @@ function App() {
         }
     };
 
+    // Аутентификация
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (password === ADMIN_PASSWORD) {
+            setIsAuthenticated(true);
+            localStorage.setItem('admin_authenticated', 'true');
+            setPassword('');
+        } else {
+            alert('Неверный пароль!');
+        }
+    };
+
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        localStorage.removeItem('admin_authenticated');
+        setPassword('');
+    };
+
     // Добавление/обновление доната
     const handleAddDonation = async (e) => {
         e.preventDefault();
+
+        if (!supabase) {
+            alert('Supabase не настроен! Проверь environment variables.');
+            return;
+        }
 
         if (!username.trim() || !amount.trim()) {
             alert('Заполните имя и сумму!');
@@ -159,27 +240,6 @@ function App() {
         }
     };
 
-    // Очистка всех данных
-    const clearAllData = async () => {
-        if (!window.confirm('Точно очистить ВСЕ данные? Это нельзя отменить!')) {
-            return;
-        }
-
-        try {
-            const { error } = await supabase
-                .from('donaters')
-                .delete()
-                .neq('id', '');
-
-            if (error) throw error;
-            setDonaters([]);
-            alert('Все данные очищены!');
-        } catch (error) {
-            console.error('Ошибка очистки:', error);
-            alert('Ошибка при очистке: ' + error.message);
-        }
-    };
-
     // Получение класса для ранга
     const getRankClass = (index) => {
         switch (index) {
@@ -190,21 +250,60 @@ function App() {
         }
     };
 
+    // ЭКРАН АУТЕНТИФИКАЦИИ
+    if (isAdmin && !isAuthenticated) {
+        return (
+            <div className="App">
+                <div className="widget-container">
+                    <div className="login-screen">
+                        <h1>🔐 Доступ к админке</h1>
+                        <form onSubmit={handleLogin} className="login-form">
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Введите пароль"
+                                className="password-input"
+                            />
+                            <button type="submit" className="login-button">
+                                Войти
+                            </button>
+                        </form>
+                        <p className="login-hint">Или <a href="/?view=widget">перейти к виджету</a></p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="App">
             <div className="widget-container">
                 <header className="widget-header">
-                    <h1>🏆 ТОП ДОНАТЕРЫ</h1>
-                    <button
-                        onClick={() => setIsAdmin(!isAdmin)}
-                        className="admin-toggle"
-                    >
-                        {isAdmin ? '👁️ Показать виджет' : '⚙️ Редактировать'}
-                    </button>
+                    <div className="header-content">
+                        <div className="header-icon">🏆</div>
+                        <div className="header-text">
+                            <div className="header-title">Топ Донерсов</div>
+                            <div className="header-subtitle">COMXALT<span className='hs2'>ы</span></div>
+                        </div>
+                    </div>
+                    <div className="header-actions">
+                        {isAuthenticated && (
+                            <button onClick={handleLogout} className="logout-button">
+                                🔓 Выйти
+                            </button>
+                        )}
+                        <button
+                            onClick={() => setIsAdmin(!isAdmin)}
+                            className="admin-toggle"
+                        >
+                            {isAdmin ? '👁️ Показать виджет' : '⚙️ Редактировать'}
+                        </button>
+                    </div>
                 </header>
 
                 {isAdmin ? (
-                    // АДМИНКА
+                    // АДМИНКА (только для авторизованных)
                     <div className="admin-panel">
                         <form onSubmit={handleAddDonation} className="donation-form">
                             <div className="form-row">
@@ -235,15 +334,12 @@ function App() {
                                     className="add-button"
                                     disabled={isLoading}
                                 >
-                                    {isLoading ? '⏳ Добавляем...' : '✅ Добавить'}
+                                    {isLoading ? '⏳ Добавляем...' : 'Добавить'}
                                 </button>
                             </div>
                         </form>
 
                         <div className="admin-actions">
-                            <button onClick={clearAllData} className="clear-button">
-                                🗑️ Очистить ВСЕ данные
-                            </button>
                             <button onClick={loadTopDonaters} className="refresh-button">
                                 🔄 Обновить список
                             </button>
@@ -254,7 +350,6 @@ function App() {
                             <div className="preview-list">
                                 {donaters.map((donater, index) => (
                                     <div key={donater.id} className={`preview-item ${getRankClass(index)}`}>
-                                        <span className="preview-rank">#{index + 1}</span>
                                         <span className="preview-name">{donater.username}</span>
                                         <span className="preview-amount">— {donater.total_amount} руб.</span>
                                     </div>
@@ -263,7 +358,7 @@ function App() {
                         </div>
                     </div>
                 ) : (
-                    // ВИДЖЕТ (только просмотр)
+                    // ВИДЖЕТ (только просмотр) <div className="donater-rank">•</div>
                     <div className="widget-view">
                         <div className="donaters-list">
                             {donaters.length === 0 ? (
@@ -271,7 +366,6 @@ function App() {
                             ) : (
                                 donaters.map((donater, index) => (
                                     <div key={donater.id} className={`donater-card ${getRankClass(index)}`}>
-                                        <div className="donater-rank">#{index + 1}</div>
                                         <div className="donater-info">
                                             <span className="donater-name">{donater.username}</span>
                                             <span className="donater-separator"> — </span>

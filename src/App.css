@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background: linear-gradient(135deg, #6441a5 0%, #2a0845 100%);
+  background: #353535;
   min-height: 100vh;
   padding: 20px;
   color: white;
@@ -10,11 +10,7 @@
 .widget-container {
   max-width: 600px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
 }
 
 .widget-header {
@@ -22,34 +18,18 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding-bottom: 15px;
+  padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .widget-header h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
   color: #ffd700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
 }
 
-.admin-toggle {
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s;
-}
-
-.admin-toggle:hover {
-  background: #ff5252;
-  transform: translateY(-2px);
-}
-
-/* Стили админки */
 .admin-panel {
   text-align: left;
 }
@@ -81,7 +61,7 @@
 }
 
 .input-group input {
-  width: 100%;
+  width: 85%;
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
@@ -126,7 +106,8 @@
   flex-wrap: wrap;
 }
 
-.clear-button, .refresh-button {
+.clear-button,
+.refresh-button {
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
@@ -190,11 +171,6 @@
   transform: translateX(5px);
 }
 
-.preview-rank {
-  font-weight: bold;
-  min-width: 40px;
-}
-
 .preview-name {
   font-weight: bold;
 }
@@ -203,7 +179,6 @@
   color: #ffd700;
 }
 
-/* Стили виджета */
 .widget-view {
   text-align: left;
 }
@@ -211,7 +186,6 @@
 .donaters-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .no-donaters {
@@ -224,20 +198,13 @@
 .donater-card {
   display: flex;
   align-items: center;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 10px 0;
   transition: all 0.3s;
-  border: 2px solid transparent;
-}
-
-.donater-card:hover {
-  transform: translateX(5px);
 }
 
 .donater-rank {
-  font-size: 18px;
   font-weight: bold;
-  min-width: 50px;
+  margin-right: 15px;
 }
 
 .donater-info {
@@ -259,78 +226,241 @@
   font-weight: bold;
 }
 
-/* Стили для рангов */
-.rank-first {
-  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 100%);
-  color: #2a0845;
-  border-color: #ffd700;
-}
-
+.rank-first .donater-name,
 .rank-first .donater-amount {
-  color: #2a0845;
+  font-size: 32px;
+  color: #FFD700;
+  text-shadow:
+    1.5px 1.5px 0 #000,
+    -1.5px -1.5px 0 #000,
+    1.5px -1.5px 0 #000,
+    -1.5px 1.5px 0 #000,
+    0 0 8px rgba(255, 215, 0, 0.6);
+  font-weight: 900;
+  line-height: 26px;
 }
 
-.rank-second {
-  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
-  color: #2a0845;
-  border-color: #c0c0c0;
-}
-
+.rank-second .donater-name,
 .rank-second .donater-amount {
-  color: #2a0845;
+  font-size: 28px;
+  color: #FFA500;
+  text-shadow:
+    1.5px 1.5px 0 #000,
+    -1.5px -1.5px 0 #000,
+    1.5px -1.5px 0 #000,
+    -1.5px 1.5px 0 #000,
+    0 0 6px rgba(255, 165, 0, 0.5);
+  font-weight: 850;
+  line-height: 26px;
 }
 
-.rank-third {
-  background: linear-gradient(135deg, #cd7f32 0%, #e8b886 100%);
-  color: #2a0845;
-  border-color: #cd7f32;
-}
-
+.rank-third .donater-name,
 .rank-third .donater-amount {
-  color: #2a0845;
+  font-size: 23px;
+  color: #FF4500;
+  text-shadow:
+    1.5px 1.5px 0 #000,
+    -1.5px -1.5px 0 #000,
+    1.5px -1.5px 0 #000,
+    -1.5px 1.5px 0 #000,
+    0 0 4px rgba(255, 69, 0, 0.4);
+  font-weight: 800;
+  line-height: 26px;
 }
 
-.rank-other {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
+.rank-other .donater-name,
 .rank-other .donater-amount {
-  color: #ffd700;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-shadow: none;
+  font-weight: normal;
 }
 
-/* Адаптивность */
+.login-screen {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.password-input {
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+}
+
+.login-button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.login-button:hover {
+  background: #45a049;
+}
+
+.login-hint {
+  margin-top: 20px;
+  color: #ccc;
+}
+
+.login-hint a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.login-hint a:hover {
+  text-decoration: underline;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.admin-toggle {
+  background: #525252;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.admin-toggle:hover {
+  background: #000000;
+  transform: translateY(-2px);
+}
+
+.logout-button {
+  background: #757575;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.logout-button:hover {
+  background: #5d5d5d;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-icon {
+  font-size: 40px;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 24px;
+  color: #ffd700;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  font-size: 24px;
+  letter-spacing: 2px;
+  color: #ff5c5c;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.hs2 {
+  color: #ac8e8e;
+}
+
 @media (max-width: 768px) {
   .widget-container {
     margin: 10px;
     padding: 15px;
   }
-  
+
   .widget-header {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .form-row {
     flex-direction: column;
   }
-  
+
   .input-group {
     min-width: 100%;
   }
-  
+
   .admin-actions {
     flex-direction: column;
   }
-  
+
   .donater-card {
     flex-direction: column;
     text-align: center;
     gap: 10px;
   }
-  
+
   .donater-info {
     flex-direction: column;
     gap: 5px;
+  }
+
+  .rank-first .donater-rank {
+    font-size: 28px;
+  }
+
+  .rank-first .donater-name {
+    font-size: 20px;
+  }
+
+  .rank-second .donater-rank {
+    font-size: 24px;
+  }
+
+  .rank-second .donater-name {
+    font-size: 18px;
+  }
+
+  .rank-third .donater-rank {
+    font-size: 20px;
+  }
+
+  .rank-third .donater-name {
+    font-size: 16px;
+  }
+
+  .rank-other .donater-rank {
+    font-size: 14px;
+  }
+
+  .rank-other .donater-name {
+    font-size: 14px;
   }
 }
