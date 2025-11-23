@@ -19,8 +19,16 @@ function App() {
     const [isAdmin, setIsAdmin] = useState(true); // По умолчанию админка
     const [isLoading, setIsLoading] = useState(false);
 
-    // Загружаем топ донатеров
+    // Загружаем топ донатеров и настраиваем режим
     useEffect(() => {
+        // Автоматически определяем режим по URL параметру
+        const urlParams = new URLSearchParams(window.location.search);
+        const viewMode = urlParams.get('view');
+
+        if (viewMode === 'widget') {
+            setIsAdmin(false);
+        }
+
         loadTopDonaters();
         setupRealtimeSubscription();
         startKeepAlive(); // Запускаем поддержку активности БД
