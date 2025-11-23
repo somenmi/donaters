@@ -26,7 +26,7 @@ function App() {
         const viewMode = urlParams.get('view');
 
         if (viewMode === 'widget') {
-            setIsAdmin(false);
+            setIsAdmin(false); 
         }
 
         loadTopDonaters();
