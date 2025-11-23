@@ -284,7 +284,7 @@ function App() {
                         <div className="header-icon">🏆</div>
                         <div className="header-text">
                             <div className="header-title">Топ Донерсов</div>
-                            <div className="header-subtitle">COMXALT<span className='hs2'>ы</span></div>
+                            <div className="header-subtitle">COMXALT<span className='hs2'>'ы</span></div>
                         </div>
                     </div>
                     <div className="header-actions">
