@@ -483,7 +483,6 @@
   color: #ac8e8e;
 }
 
-/* Стили для кнопок соцсетей */
 .social-buttons {
   display: flex;
   justify-content: center;
@@ -520,7 +519,6 @@
   font-size: 16px;
 }
 
-/* Twitch - фиолетовый */
 .social-btn.twitch {
   background: linear-gradient(135deg, #6441a5 0%, #4B367C 100%);
   color: white;
@@ -534,7 +532,6 @@
   filter: opacity(1);
 }
 
-/* YouTube - красный */
 .social-btn.youtube {
   background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
   color: white;
@@ -549,7 +546,6 @@
   filter: opacity(1);
 }
 
-/* Telegram - голубой */
 .social-btn.telegram {
   background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
   color: white;
@@ -561,6 +557,275 @@
   background: linear-gradient(135deg, #00A2E8 0%, #0088cc 100%);
   box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
   filter: opacity(1);
+}
+
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.social-btn.donation-alerts {
+  background: linear-gradient(135deg, #FF6B35 0%, #E55625 100%);
+  color: white;
+  border-color: #FF7F50;
+  margin-top: 4px;
+}
+
+.social-btn.donation-alerts:hover {
+  background: linear-gradient(135deg, #FF7F50 0%, #FF6B35 100%);
+  box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
+  filter: opacity(1);
+}
+
+.social-btn.donation-alerts img {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(3px 0px 0px rgba(95, 95, 95, 0.5))
+}
+
+.social-btn.donatpay {
+  background: linear-gradient(135deg, #28A745 0%, #1E7E34 100%);
+  color: white;
+  border-color: #34CE57;
+  margin-top: 4px;
+}
+
+.social-btn.donatpay img {
+  width: 46px;
+  height: 28px;
+  filter: brightness(4) drop-shadow(2px 0px 1px rgba(48, 48, 48, 0.7))
+}
+
+.social-btn.donatpay:hover {
+  background: linear-gradient(135deg, #34CE57 0%, #28A745 100%);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+  filter: opacity(1);
+}
+
+/* Стили для бегущей строки */
+.marquee-container {
+  margin-bottom: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  padding-left: 100%;
+  font-weight: 600;
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.marquee-content span {
+  display: inline-block;
+  padding-right: 50px;
+}
+
+/* Стили для аккордеона с кошельками */
+.wallets-accordion {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid rgba(255, 217, 0, 0.3);
+  border-radius: 10px;
+  margin: 15px 0 20px 0;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  filter: opacity(0.6);
+}
+
+.accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  cursor: pointer;
+  background: rgba(255, 215, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.accordion-header:hover {
+  background: rgba(255, 215, 0, 0.3);
+}
+
+.accordion-header h3 {
+  margin: 0;
+  color: #FFD700;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.accordion-icon {
+  color: #FFD700;
+  font-size: 14px;
+  transition: transform 0.3s;
+}
+
+.accordion-content {
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+
+
+.wallets-accordion.active .accordion-content {
+  padding: 20px;
+  max-height: 1000px;
+}
+
+.wallets-accordion.active .accordion-icon {
+  transform: rotate(90deg);
+}
+
+.wallets-accordion.active {
+  transition: all 0.3s ease;
+  filter: opacity(1);
+}
+
+/* Секции криптовалют */
+.crypto-section {
+  margin-bottom: 25px;
+}
+
+.crypto-section:last-child {
+  margin-bottom: 0;
+}
+
+.crypto-title {
+  color: #FFD700;
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Сетка сетей */
+.networks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 8px;
+}
+
+.network-item {
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.network-name {
+  display: block;
+  font-weight: 600;
+  color: #FFA500;
+  font-size: 16px;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+.address-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wallet-address {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #fff;
+  word-break: break-all;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 20px 2px 20px;
+  border-radius: 4px;
+}
+
+.copy-btn {
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  color: #FFD700;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 215, 0, 0.4);
+  transform: scale(1.15);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .network-item {
+    width: 90%;
+    max-width: 400px;
+    min-height: 50px;
+    margin: 0 auto;
+  }
+
+  .wallet-address {
+    font-size: 10px;
+    width: 150%;
+    padding-bottom: 4px;
+  }
+
+  .accordion-header {
+    padding: 8px 15px;
+  }
+
+  .accordion-header h3 {
+    font-size: 16px;
+  }
+
+  .crypto-title {
+    font-size: 20px;
+  }
+
+  .networks-grid {
+    display: inline;
+    align-content: center;
+    text-align: center;
+  }
+
+  button {
+    margin-top: -10px;
+  }
+
+  .network-name {
+    margin-bottom: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .address-row {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .copy-btn {
+    align-self: flex-end;
+  }
+
+  .network-name {
+    margin-right: 50px;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
 }
 
 @media (max-width: 480px) {
@@ -577,7 +842,7 @@
 @media (max-width: 768px) {
   .social-buttons {
     gap: 8px;
-    margin: 15px 0 25px 0;
+    margin: 28px 0 25px 0;
   }
 
   .social-btn {
@@ -683,5 +948,17 @@
     display: flex;
     font-size: 14px;
 
+  }
+
+  .social-btn.donation-alerts {
+    width: 38px;
+    height: 46px;
+    border-radius: 50%;
+  }
+
+  .social-btn.donatpay {
+    width: 38px;
+    height: 46px;
+    border-radius: 50%;
   }
 }

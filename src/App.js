@@ -23,6 +23,8 @@ function App() {
     const [password, setPassword] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+    const [isWalletsOpen, setIsWalletsOpen] = useState(false);
+
     // Пароль для админки (замени на свой!)
     const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
 
@@ -250,6 +252,18 @@ function App() {
         }
     };
 
+    const handleCopyAddress = (address, network) => {
+        navigator.clipboard.writeText(address).then(() => {
+        }).catch(() => {
+            const textArea = document.createElement('textarea');
+            textArea.value = address;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+        });
+    };
+
     // ЭКРАН АУТЕНТИФИКАЦИИ
     if (isAdmin && !isAuthenticated) {
         return (
@@ -377,9 +391,112 @@ function App() {
                         </div>
                     </div>
                 )}
-                {/* Соцсети - показываем всегда */}
+
                 <div className="social-buttons">
-                    {/* Twitch с SVG иконкой */}
+                    <div className="marquee-container">
+                        <div className="marquee-content">
+                            <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
+                            <span>Есть как "DonationAlerts" так и "DonatPay", так же можно криптовалютой</span><span></span>
+                            <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
+                            <span>Есть как "DonationAlerts" так и "DonatPay", так же можно криптовалютой</span>
+                        </div>
+                    </div>
+                    <a href="https://www.donationalerts.com/r/comxajlta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">
+                        <img src="/images/da.svg" alt="DonationAlerts" className="social-icon custom-icon" />
+                        DonationAlerts
+                    </a>
+
+                    <a href="https://new.donatepay.ru/@COMXAJLTA" target="_blank" rel="noopener noreferrer" className="social-btn donatpay">
+                        <img src="/images/dp.svg" alt="DonatPay" className="social-icon custom-icon" />
+                        DonatPay
+                    </a>
+                </div>
+
+                {/*аккордеон*/}
+                <div className={`wallets-accordion ${isWalletsOpen ? 'active' : ''}`}>
+                    <div className="accordion-header" onClick={() => setIsWalletsOpen(!isWalletsOpen)}>
+                        <h3>💳 Кошельки для крипты</h3>
+                        <span className="accordion-icon">{isWalletsOpen ? '▼' : '▶'}</span>
+                    </div>
+                    <div className="accordion-content">
+
+                        <div className="crypto-section">
+                            <h4 className="crypto-title">USDT (TetherUS)</h4>
+                            <div className="networks-grid">
+                                <div className="network-item">
+                                    <span className="network-name">BSC (BEP20) & ETH (ERC20)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                    </div>
+                                </div>
+                                <div className="network-item">
+                                    <span className="network-name">TRX (TRC20)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">TX6QsovAbmzPm2dZQKoxqUJDR2RRN1GS8d</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('TX6QsovAbmzPm2dZQKoxqUJDR2RRN1GS8d', 'USDT TRC20')}>📋</button>
+                                    </div>
+                                </div>
+                                <div className="network-item">
+                                    <span className="network-name">SOL (Solana)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">8YTcgBTKVgLdjwmqPbqHt1ng4e49yPaMeXJVvpSA7yhx</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('8YTcgBTKVgLdjwmqPbqHt1ng4e49yPaMeXJVvpSA7yhx', 'USDT Solana')}>📋</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="crypto-section">
+                            <h4 className="crypto-title">Bitcoin (BTC)</h4>
+                            <div className="networks-grid">
+                                <div className="network-item">
+                                    <span className="network-name">BSC (BEP20)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'BTC BEP20')}>📋</button>
+                                    </div>
+                                </div>
+                                <div className="network-item">
+                                    <span className="network-name">BTC (Native)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">1BhSRji1Crz4oXCvWCZur7ntmbYvzN8yu3</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('1BhSRji1Crz4oXCvWCZur7ntmbYvzN8yu3', 'BTC Native')}>📋</button>
+                                    </div>
+                                </div>
+                                <div className="network-item">
+                                    <span className="network-name">BTC (SegWit)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">bc1q7v6ey4mprgq6fd5l7t7edxg7y57z22rzffdq96</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('bc1q7v6ey4mprgq6fd5l7t7edxg7y57z22rzffdq96', 'BTC SegWit')}>📋</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="crypto-section">
+                            <h4 className="crypto-title">Ethereum (ETC)</h4>
+                            <div className="networks-grid">
+                                <div className="network-item">
+                                    <span className="network-name">BSC (BEP20)</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                    </div>
+                                </div>
+                                <div className="network-item">
+                                    <span className="network-name">ARBITRUM; OPTIMISM; Base</span>
+                                    <div className="address-row">
+                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div className="social-buttons">
                     <a href="https://www.twitch.tv/comxalta" target="_blank" rel="noopener noreferrer" className="social-btn twitch">
                         <svg className="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
@@ -387,7 +504,6 @@ function App() {
                         Twitch
                     </a>
 
-                    {/* YouTube с SVG иконкой */}
                     <a href="https://www.youtube.com/@comxalta" target="_blank" rel="noopener noreferrer" className="social-btn youtube">
                         <svg className="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
@@ -395,7 +511,6 @@ function App() {
                         YouTube
                     </a>
 
-                    {/* Telegram с SVG иконкой */}
                     <a href="https://t.me/comxalta" target="_blank" rel="noopener noreferrer" className="social-btn telegram">
                         <svg className="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.14.141-.259.259-.374.261l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" />
@@ -404,7 +519,7 @@ function App() {
                     </a>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 
