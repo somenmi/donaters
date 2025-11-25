@@ -646,14 +646,36 @@
   white-space: nowrap;
   animation: marquee 20s linear infinite;
   padding-left: 100%;
-  font-weight: 600;
+  font-weight: 300;
   color: #FFD700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  text-shadow: 0 0 2px rgba(255, 215, 0, 0.5);
 }
 
 .marquee-content span {
   display: inline-block;
   padding-right: 50px;
+  letter-spacing: 0.5px;
+}
+
+.marquee-content s1 {
+  font-size: 110%;
+  color: #ffc760;
+  font-weight: 900;
+  text-shadow: 0 0 2px rgb(68, 50, 0);
+}
+
+.marquee-content s2 {
+  font-size: 110%;
+  color: #12d600;
+  font-weight: 900;
+  text-shadow: 0 0 2px rgb(3, 90, 3);
+}
+
+.marquee-content s3 {
+  font-size: 110%;
+  color: #e62f2f;
+  font-weight: 900;
+  text-shadow: 0 0 2px rgb(136, 12, 12);
 }
 
 /* Стили для аккордеона с кошельками */
@@ -740,6 +762,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 8px;
+  border: 1px solid rgba(255, 217, 0, 0.3);
+  border-radius: 8px;
+  padding: 8px 8px 8px 8px;
 }
 
 .network-item {
@@ -817,9 +842,11 @@
   }
 
   .networks-grid {
-    display: inline;
     align-content: center;
     text-align: center;
+    border: 1px solid rgba(255, 217, 0, 0.3);
+    border-radius: 8px;
+    padding: 8px 8px 8px 8px;
   }
 
   button {
@@ -868,6 +895,11 @@
 
   .social-icon {
     font-size: 20px;
+  }
+
+  .networks-grid {
+    display: inline;
+    border: 0;
   }
 }
 

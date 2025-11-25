@@ -393,9 +393,9 @@ function App() {
                     <div className="marquee-container">
                         <div className="marquee-content">
                             <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
-                            <span>Есть как "DonationAlerts", так и "DonatPay", также можно криптовалютой.</span><span></span>
+                            <span>Есть как "<s1>DonationAlerts</s1>", так и "<s2>DonatPay</s2>", также можно <s3>криптовалютой</s3>.</span><span></span>
                             <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
-                            <span>Есть как "DonationAlerts", так и "DonatPay", также можно криптовалютой.</span>
+                            <span>Есть как "<s1>DonationAlerts</s1>", так и "<s2>DonatPay</s2>", также можно <s3>криптовалютой</s3>.</span>
                         </div>
                     </div>
                     <a href="https://www.donationalerts.com/r/comxajlta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">
