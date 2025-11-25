@@ -270,18 +270,14 @@ function App() {
             <div className="App">
                 <div className="widget-container">
                     <div className="login-screen">
-                        <h1>🔐 Доступ к админке</h1>
                         <form onSubmit={handleLogin} className="login-form">
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Введите пароль"
+                                placeholder="Тебе сюда 👇"
                                 className="password-input"
                             />
-                            <button type="submit" className="login-button">
-                                Войти
-                            </button>
                         </form>
                         <p className="login-hint">Или <a href="/?view=widget">перейти к виджету</a></p>
                     </div>
@@ -296,23 +292,19 @@ function App() {
                 <header className="widget-header">
                     <div className="header-content">
                         <div className="header-icon">🏆</div>
+                        
                         <div className="header-text">
                             <div className="header-title">Топ Донерсов</div>
                             <div className="header-subtitle">COMXALT<span className='hs2'>'ы</span></div>
                         </div>
                     </div>
                     <div className="header-actions">
+                        <div className="header-down">Топ от 200 ₽</div>
                         {isAuthenticated && (
                             <button onClick={handleLogout} className="logout-button">
                                 🔓 Выйти
                             </button>
                         )}
-                        <button
-                            onClick={() => setIsAdmin(!isAdmin)}
-                            className="admin-toggle"
-                        >
-                            {isAdmin ? '👁️ Показать виджет' : '⚙️ Редактировать'}
-                        </button>
                     </div>
                 </header>
 
@@ -381,7 +373,12 @@ function App() {
                                 donaters.map((donater, index) => (
                                     <div key={donater.id} className={`donater-card ${getRankClass(index)}`}>
                                         <div className="donater-info">
-                                            <span className="donater-name">{donater.username}</span>
+                                            <span
+                                                className="donater-name"
+                                                data-icon={donater.username.includes('☑️') ? 'twitch' : ''}
+                                            >
+                                                {donater.username.replace('☑️', '')}
+                                            </span>
                                             <span className="donater-separator"> — </span>
                                             <span className="donater-amount">{donater.total_amount} ₽</span>
                                         </div>
@@ -396,9 +393,9 @@ function App() {
                     <div className="marquee-container">
                         <div className="marquee-content">
                             <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
-                            <span>Есть как "DonationAlerts" так и "DonatPay", так же можно криптовалютой</span><span></span>
+                            <span>Есть как "DonationAlerts", так и "DonatPay", также можно криптовалютой.</span><span></span>
                             <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
-                            <span>Есть как "DonationAlerts" так и "DonatPay", так же можно криптовалютой</span>
+                            <span>Есть как "DonationAlerts", так и "DonatPay", также можно криптовалютой.</span>
                         </div>
                     </div>
                     <a href="https://www.donationalerts.com/r/comxajlta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">

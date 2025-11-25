@@ -250,6 +250,26 @@
   font-weight: bold;
 }
 
+/* Иконка только когда есть data-icon */
+.donater-name[data-icon="twitch"] {
+  position: relative;
+  padding-left: 22px;
+}
+
+.donater-name[data-icon="twitch"]::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-color: #9962ff;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
 .donater-separator {
   color: #ccc;
 }
@@ -371,6 +391,11 @@
   text-align: center;
 }
 
+.password-input::placeholder {
+  color: rgb(126, 126, 126);
+  text-shadow: 0 1px 0 rgb(0, 0, 0, 0.2);
+}
+
 .login-button {
   background: #4caf50;
   color: white;
@@ -477,6 +502,13 @@
   font-weight: 900;
   line-height: 1.2;
   padding-bottom: 6px;
+}
+
+.header-down {
+  font-size: 8px;
+  line-height: 0;
+  font-weight: 100;
+  letter-spacing: 2.5px;
 }
 
 .hs2 {
