@@ -4,7 +4,7 @@
             <img src="https://github.com/somenmi/images/raw/main/twitch/favicon-twitch-don.png" width="120" height="120">
         </td>
         <td align="center">
-            <h1><a href="donaters.vercel.app"><b>乃仨丂丁</b> Donaters</a></h1>
+            <h1><a href="https://donaters.vercel.app/?view=widget"><b>乃仨丂丁</b> Donaters</a></h1>
             <p><strong>Топ лучших поддержаторов</strong></p><p></p>
         </td>
     </tr>
