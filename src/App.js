@@ -289,10 +289,10 @@ function App() {
     return (
         <div className="App">
             <div className="widget-container">
+                {/* Заголовок - прикреплен к верху */}
                 <header className="widget-header">
                     <div className="header-content">
                         <div className="header-icon">🏆</div>
-                        
                         <div className="header-text">
                             <div className="header-title">Топ Донерсов</div>
                             <div className="header-subtitle">COMXALT<span className='hs2'>'ы</span></div>
@@ -308,192 +308,195 @@ function App() {
                     </div>
                 </header>
 
-                {isAdmin ? (
-                    // АДМИНКА (только для авторизованных)
-                    <div className="admin-panel">
-                        <form onSubmit={handleAddDonation} className="donation-form">
-                            <div className="form-row">
-                                <div className="input-group">
-                                    <label>Имя донатера:</label>
-                                    <input
-                                        type="text"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        placeholder="Введите имя"
-                                        disabled={isLoading}
-                                    />
-                                </div>
+                {/* Основной контент - будет прокручиваться */}
+                <div className="main-content">
+                    {isAdmin ? (
+                        // АДМИНКА (только для авторизованных)
+                        <div className="admin-panel">
+                            <form onSubmit={handleAddDonation} className="donation-form">
+                                <div className="form-row">
+                                    <div className="input-group">
+                                        <label>Имя донатера:</label>
+                                        <input
+                                            type="text"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            placeholder="Введите имя"
+                                            disabled={isLoading}
+                                        />
+                                    </div>
 
-                                <div className="input-group">
-                                    <label>Сумма (руб):</label>
-                                    <input
-                                        type="text"
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
-                                        placeholder="1000"
-                                        disabled={isLoading}
-                                    />
-                                </div>
+                                    <div className="input-group">
+                                        <label>Сумма (руб):</label>
+                                        <input
+                                            type="text"
+                                            value={amount}
+                                            onChange={(e) => setAmount(e.target.value)}
+                                            placeholder="1000"
+                                            disabled={isLoading}
+                                        />
+                                    </div>
 
-                                <button
-                                    type="submit"
-                                    className="add-button"
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? '⏳ Добавляем...' : 'Добавить'}
+                                    <button
+                                        type="submit"
+                                        className="add-button"
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? '⏳ Добавляем...' : 'Добавить'}
+                                    </button>
+                                </div>
+                            </form>
+
+                            <div className="admin-actions">
+                                <button onClick={loadTopDonaters} className="refresh-button">
+                                    🔄 Обновить список
                                 </button>
                             </div>
-                        </form>
 
-                        <div className="admin-actions">
-                            <button onClick={loadTopDonaters} className="refresh-button">
-                                🔄 Обновить список
-                            </button>
-                        </div>
-
-                        <div className="preview-section">
-                            <h3>Текущий топ ({donaters.length} донатеров):</h3>
-                            <div className="preview-list">
-                                {donaters.map((donater, index) => (
-                                    <div key={donater.id} className={`preview-item ${getRankClass(index)}`}>
-                                        <span className="preview-name">{donater.username}</span>
-                                        <span className="preview-amount">— {donater.total_amount} руб.</span>
-                                    </div>
-                                ))}
+                            <div className="preview-section">
+                                <h3>Текущий топ ({donaters.length} донатеров):</h3>
+                                <div className="preview-list">
+                                    {donaters.map((donater, index) => (
+                                        <div key={donater.id} className={`preview-item ${getRankClass(index)}`}>
+                                            <span className="preview-name">{donater.username}</span>
+                                            <span className="preview-amount">— {donater.total_amount} руб.</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
+                    ) : (
+                        // ВИДЖЕТ (только просмотр)
+                        <div className="widget-view">
+                            <div className="donaters-list">
+                                {donaters.length === 0 ? (
+                                    <p className="no-donaters">Пока нет донатов...</p>
+                                ) : (
+                                    donaters.map((donater, index) => (
+                                        <div key={donater.id} className={`donater-card ${getRankClass(index)}`}>
+                                            <div className="donater-info">
+                                                <span
+                                                    className="donater-name"
+                                                    data-icon={donater.username.includes('☑️') ? 'twitch' : ''}
+                                                >
+                                                    {donater.username.replace('☑️', '')}
+                                                </span>
+                                                <span className="donater-separator"> — </span>
+                                                <span className="donater-amount">{donater.total_amount} ₽</span>
+                                            </div>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Блок с donation alerts и donatpay */}
+                    <div className="da-dp-block">
+                        <div className="marquee-container">
+                            <div className="marquee-content">
+                                <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span>
+                                <span>Есть как "<s1>DonationAlerts</s1>", так и "<s2>DonatPay</s2>", также можно <s3>криптовалютой</s3>.</span>
+                            </div>
+                        </div>
+                        <a href="https://www.donationalerts.com/r/comxalta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">
+                            <img src="/images/da.svg" alt="DonationAlerts" className="social-icon custom-icon" />
+                            DonationAlerts
+                        </a>
+
+                        <a href="https://new.donatepay.ru/@COMXAJLTA" target="_blank" rel="noopener noreferrer" className="social-btn donatpay">
+                            <img src="/images/dp.svg" alt="DonatPay" className="social-icon custom-icon" />
+                            DonatPay
+                        </a>
                     </div>
-                ) : (
-                    // ВИДЖЕТ (только просмотр)
-                    <div className="widget-view">
-                        <div className="donaters-list">
-                            {donaters.length === 0 ? (
-                                <p className="no-donaters">Пока нет донатов...</p>
-                            ) : (
-                                donaters.map((donater, index) => (
-                                    <div key={donater.id} className={`donater-card ${getRankClass(index)}`}>
-                                        <div className="donater-info">
-                                            <span
-                                                className="donater-name"
-                                                data-icon={donater.username.includes('☑️') ? 'twitch' : ''}
-                                            >
-                                                {donater.username.replace('☑️', '')}
-                                            </span>
-                                            <span className="donater-separator"> — </span>
-                                            <span className="donater-amount">{donater.total_amount} ₽</span>
+
+                    {/* Аккордеон с кошельками */}
+                    <div className={`wallets-accordion ${isWalletsOpen ? 'active' : ''}`}>
+                        <div className="accordion-header" onClick={() => setIsWalletsOpen(!isWalletsOpen)}>
+                            <h3>💳 Кошельки для крипты</h3>
+                            <span className="accordion-icon">{isWalletsOpen ? '▼' : '▶'}</span>
+                        </div>
+                        <div className="accordion-content">
+
+                            <div className="crypto-section">
+                                <h4 className="crypto-title">USDT (TetherUS)</h4>
+                                <div className="networks-grid">
+                                    <div className="network-item">
+                                        <span className="network-name">BSC (BEP20) & ETH (ERC20)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
                                         </div>
                                     </div>
-                                ))
-                            )}
-                        </div>
-                    </div>
-                )}
-
-                <div className="social-buttons">
-                    <div className="marquee-container">
-                        <div className="marquee-content">
-                            <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
-                            <span>Есть как "<s1>DonationAlerts</s1>", так и "<s2>DonatPay</s2>", также можно <s3>криптовалютой</s3>.</span><span></span>
-                            <span>Хочешь поддержать? Тыкай на удобный для тебя сервис ниже👇</span><span></span>
-                            <span>Есть как "<s1>DonationAlerts</s1>", так и "<s2>DonatPay</s2>", также можно <s3>криптовалютой</s3>.</span>
-                        </div>
-                    </div>
-                    <a href="https://www.donationalerts.com/r/comxajlta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">
-                        <img src="/images/da.svg" alt="DonationAlerts" className="social-icon custom-icon" />
-                        DonationAlerts
-                    </a>
-
-                    <a href="https://new.donatepay.ru/@COMXAJLTA" target="_blank" rel="noopener noreferrer" className="social-btn donatpay">
-                        <img src="/images/dp.svg" alt="DonatPay" className="social-icon custom-icon" />
-                        DonatPay
-                    </a>
-                </div>
-
-                {/*аккордеон*/}
-                <div className={`wallets-accordion ${isWalletsOpen ? 'active' : ''}`}>
-                    <div className="accordion-header" onClick={() => setIsWalletsOpen(!isWalletsOpen)}>
-                        <h3>💳 Кошельки для крипты</h3>
-                        <span className="accordion-icon">{isWalletsOpen ? '▼' : '▶'}</span>
-                    </div>
-                    <div className="accordion-content">
-
-                        <div className="crypto-section">
-                            <h4 className="crypto-title">USDT (TetherUS)</h4>
-                            <div className="networks-grid">
-                                <div className="network-item">
-                                    <span className="network-name">BSC (BEP20) & ETH (ERC20)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                    <div className="network-item">
+                                        <span className="network-name">TRX (TRC20)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">TX6QsovAbmzPm2dZQKoxqUJDR2RRN1GS8d</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('TX6QsovAbmzPm2dZQKoxqUJDR2RRN1GS8d', 'USDT TRC20')}>📋</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="network-item">
-                                    <span className="network-name">TRX (TRC20)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">TX6QsovAbmzPm2dZQKoxqUJDR2RRN1GS8d</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('TX6QsovAbmzPm2dZQKoxqUJDR2RRN1GS8d', 'USDT TRC20')}>📋</button>
-                                    </div>
-                                </div>
-                                <div className="network-item">
-                                    <span className="network-name">SOL (Solana)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">8YTcgBTKVgLdjwmqPbqHt1ng4e49yPaMeXJVvpSA7yhx</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('8YTcgBTKVgLdjwmqPbqHt1ng4e49yPaMeXJVvpSA7yhx', 'USDT Solana')}>📋</button>
+                                    <div className="network-item">
+                                        <span className="network-name">SOL (Solana)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">8YTcgBTKVgLdjwmqPbqHt1ng4e49yPaMeXJVvpSA7yhx</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('8YTcgBTKVgLdjwmqPbqHt1ng4e49yPaMeXJVvpSA7yhx', 'USDT Solana')}>📋</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="crypto-section">
-                            <h4 className="crypto-title">Bitcoin (BTC)</h4>
-                            <div className="networks-grid">
-                                <div className="network-item">
-                                    <span className="network-name">BSC (BEP20)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'BTC BEP20')}>📋</button>
+                            <div className="crypto-section">
+                                <h4 className="crypto-title">Bitcoin (BTC)</h4>
+                                <div className="networks-grid">
+                                    <div className="network-item">
+                                        <span className="network-name">BSC (BEP20)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'BTC BEP20')}>📋</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="network-item">
-                                    <span className="network-name">BTC (Native)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">1BhSRji1Crz4oXCvWCZur7ntmbYvzN8yu3</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('1BhSRji1Crz4oXCvWCZur7ntmbYvzN8yu3', 'BTC Native')}>📋</button>
+                                    <div className="network-item">
+                                        <span className="network-name">BTC (Native)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">1BhSRji1Crz4oXCvWCZur7ntmbYvzN8yu3</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('1BhSRji1Crz4oXCvWCZur7ntmbYvzN8yu3', 'BTC Native')}>📋</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="network-item">
-                                    <span className="network-name">BTC (SegWit)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">bc1q7v6ey4mprgq6fd5l7t7edxg7y57z22rzffdq96</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('bc1q7v6ey4mprgq6fd5l7t7edxg7y57z22rzffdq96', 'BTC SegWit')}>📋</button>
+                                    <div className="network-item">
+                                        <span className="network-name">BTC (SegWit)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">bc1q7v6ey4mprgq6fd5l7t7edxg7y57z22rzffdq96</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('bc1q7v6ey4mprgq6fd5l7t7edxg7y57z22rzffdq96', 'BTC SegWit')}>📋</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="crypto-section">
-                            <h4 className="crypto-title">Ethereum (ETC)</h4>
-                            <div className="networks-grid">
-                                <div className="network-item">
-                                    <span className="network-name">BSC (BEP20)</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                            <div className="crypto-section">
+                                <h4 className="crypto-title">Ethereum (ETC)</h4>
+                                <div className="networks-grid">
+                                    <div className="network-item">
+                                        <span className="network-name">BSC (BEP20)</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="network-item">
-                                    <span className="network-name">ARBITRUM; OPTIMISM; Base</span>
-                                    <div className="address-row">
-                                        <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
-                                        <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                    <div className="network-item">
+                                        <span className="network-name">ARBITRUM; OPTIMISM; Base</span>
+                                        <div className="address-row">
+                                            <span className="wallet-address">0xbf334d4e726753ea5fb64953550d45fe13c7fe78</span>
+                                            <button className="copy-btn" onClick={() => handleCopyAddress('0xbf334d4e726753ea5fb64953550d45fe13c7fe78', 'USDT BEP20')}>📋</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
 
-                <div className="social-buttons">
+                {/* Нижние соц-кнопки - прикреплены к низу */}
+                <div className="bottom-social-buttons">
                     <a href="https://www.twitch.tv/comxalta" target="_blank" rel="noopener noreferrer" className="social-btn twitch">
                         <svg className="social-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
@@ -516,7 +519,7 @@ function App() {
                     </a>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

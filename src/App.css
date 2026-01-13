@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  min-height: 100vh;
+  height: 70%;
   padding: 20px;
   color: white;
   font-family: 'Arial', sans-serif;
@@ -31,6 +31,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.65);
   z-index: -1;
+  border-left: 1px solid rgb(0, 0, 0, 0);
 }
 
 .App.blur-bg::before {
@@ -43,6 +44,9 @@
   margin: 0 auto;
   background: transparent;
   padding: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .widget-header {
@@ -52,6 +56,14 @@
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 15px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .widget-header h1 {
@@ -250,7 +262,6 @@
   font-weight: bold;
 }
 
-/* Иконка только когда есть data-icon */
 .donater-name[data-icon="twitch"] {
   position: relative;
   padding-left: 22px;
@@ -465,6 +476,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-right: 36px;
 }
 
 .header-icon {
@@ -515,14 +527,37 @@
   color: #ac8e8e;
 }
 
-.social-buttons {
+.da-dp-block {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin: 20px 20px 30px 20px;
+  margin: 20px 0 30px 0;
   flex-wrap: wrap;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bottom-social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  padding: 15px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.main-content {
+  padding-top: 90px;
+  padding-bottom: 100px;
+  flex: 1;
 }
 
 .social-btn {
@@ -569,7 +604,6 @@
   color: white;
   border-color: #FF3333;
   width: 90px;
-
 }
 
 .social-btn.youtube:hover {
@@ -596,49 +630,49 @@
   height: 18px;
 }
 
-.social-btn.donation-alerts {
+.da-dp-block .social-btn.donation-alerts {
   background: linear-gradient(135deg, #FF6B35 0%, #E55625 100%);
   color: white;
   border-color: #FF7F50;
   margin-top: 4px;
 }
 
-.social-btn.donation-alerts:hover {
+.da-dp-block .social-btn.donation-alerts:hover {
   background: linear-gradient(135deg, #FF7F50 0%, #FF6B35 100%);
   box-shadow: 0 5px 15px rgba(255, 107, 53, 0.4);
   filter: opacity(1);
 }
 
-.social-btn.donation-alerts img {
+.da-dp-block .social-btn.donation-alerts img {
   width: 28px;
   height: 28px;
   filter: drop-shadow(3px 0px 0px rgba(95, 95, 95, 0.5))
 }
 
-.social-btn.donatpay {
+.da-dp-block .social-btn.donatpay {
   background: linear-gradient(135deg, #28A745 0%, #1E7E34 100%);
   color: white;
   border-color: #34CE57;
   margin-top: 4px;
 }
 
-.social-btn.donatpay img {
+.da-dp-block .social-btn.donatpay img {
   width: 46px;
   height: 28px;
   filter: brightness(4) drop-shadow(2px 0px 1px rgba(48, 48, 48, 0.7))
 }
 
-.social-btn.donatpay:hover {
+.da-dp-block .social-btn.donatpay:hover {
   background: linear-gradient(135deg, #34CE57 0%, #28A745 100%);
   box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
   filter: opacity(1);
 }
 
-/* Стили для бегущей строки */
 .marquee-container {
   margin-bottom: 8px;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .marquee-content {
@@ -678,7 +712,6 @@
   text-shadow: 0 0 2px rgb(136, 12, 12);
 }
 
-/* Стили для аккордеона с кошельками */
 .wallets-accordion {
   background: rgba(255, 215, 0, 0.1);
   border: 1px solid rgba(255, 217, 0, 0.3);
@@ -724,8 +757,6 @@
   transition: all 0.3s ease;
 }
 
-
-
 .wallets-accordion.active .accordion-content {
   padding: 20px;
   max-height: 1000px;
@@ -740,7 +771,6 @@
   filter: opacity(1);
 }
 
-/* Секции криптовалют */
 .crypto-section {
   margin-bottom: 25px;
 }
@@ -757,7 +787,6 @@
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
 }
 
-/* Сетка сетей */
 .networks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -814,65 +843,6 @@
   transform: scale(1.15);
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .network-item {
-    width: 90%;
-    max-width: 400px;
-    min-height: 50px;
-    margin: 0 auto;
-  }
-
-  .wallet-address {
-    font-size: 10px;
-    width: 150%;
-    padding-bottom: 4px;
-  }
-
-  .accordion-header {
-    padding: 8px 15px;
-  }
-
-  .accordion-header h3 {
-    font-size: 16px;
-  }
-
-  .crypto-title {
-    font-size: 20px;
-  }
-
-  .networks-grid {
-    align-content: center;
-    text-align: center;
-    border: 1px solid rgba(255, 217, 0, 0.3);
-    border-radius: 8px;
-    padding: 8px 8px 8px 8px;
-  }
-
-  button {
-    margin-top: -10px;
-  }
-
-  .network-name {
-    margin-bottom: 2px;
-  }
-}
-
-@media (max-width: 480px) {
-  .address-row {
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .copy-btn {
-    align-self: flex-end;
-  }
-
-  .network-name {
-    margin-right: 50px;
-  }
-}
-
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -887,59 +857,108 @@
   animation-play-state: paused;
 }
 
-@media (max-width: 480px) {
-  .social-buttons {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .social-icon {
-    font-size: 20px;
-  }
-
-  .networks-grid {
-    display: inline;
-    border: 0;
-  }
-}
-
 @media (max-width: 768px) {
-  .social-buttons {
-    gap: 8px;
-    margin: 28px 0 25px 0;
+  .App {
+    padding: 0;
   }
 
-  .social-btn {
+  .widget-container {
+    padding: 0 10px;
+    max-width: 100%;
+  }
+
+  .widget-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px 15px;
+    z-index: 1000;
+  }
+
+  .bottom-social-buttons {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    z-index: 1000;
+    transform: none;
+    left: 0;
+  }
+
+  .main-content {
+    padding-top: 80px;
+    padding-bottom: 100px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .da-dp-block {
+    margin: 20px 0;
+    padding: 15px 0;
+    gap: 8px;
+  }
+
+  .da-dp-block .social-btn {
     padding: 8px 12px;
     width: 10px;
     gap: 0;
     font-size: 0;
   }
 
-  .social-icon {
+  .da-dp-block .social-icon {
     font-size: 20px;
   }
 
-  .social-btn.twitch {
+  .da-dp-block .social-btn.donation-alerts {
+    width: 38px;
+    height: 46px;
+    border-radius: 50%;
+  }
+
+  .da-dp-block .social-btn.donatpay {
+    width: 38px;
+    height: 46px;
+    border-radius: 50%;
+  }
+
+  .bottom-social-buttons {
+    gap: 24px;
+  }
+
+  .bottom-social-buttons .social-btn {
+    padding: 8px 12px;
+    width: 10px;
+    gap: 0;
+    font-size: 0;
+  }
+
+  .bottom-social-buttons .social-icon {
+    font-size: 20px;
+  }
+
+  .bottom-social-buttons .social-btn.twitch {
     width: 22px;
     height: 30px;
     border-radius: 50px;
   }
 
-  .social-btn.social-btn.youtube {
+  .bottom-social-buttons .social-btn.youtube {
     width: 22px;
     height: 30px;
     border-radius: 50px;
   }
 
-  .social-btn.telegram {
+  .bottom-social-buttons .social-btn.telegram {
     width: 22px;
     height: 30px;
     border-radius: 50px;
-  }
-
-  .widget-container {
-    padding: 15px;
   }
 
   .widget-header {
@@ -1011,18 +1030,93 @@
   .rank-other .donater-name {
     display: flex;
     font-size: 14px;
-
   }
 
-  .social-btn.donation-alerts {
+  .network-item {
+    width: 90%;
+    max-width: 400px;
+    min-height: 50px;
+    margin: 0 auto;
+  }
+
+  .wallet-address {
+    font-size: 10px;
+    width: 150%;
+    padding-bottom: 4px;
+  }
+
+  .accordion-header {
+    padding: 8px 15px;
+  }
+
+  .accordion-header h3 {
+    font-size: 16px;
+  }
+
+  .crypto-title {
+    font-size: 20px;
+  }
+
+  .networks-grid {
+    align-content: center;
+    text-align: center;
+    border: 1px solid rgba(255, 217, 0, 0.3);
+    border-radius: 8px;
+    padding: 8px 8px 8px 8px;
+  }
+
+  button {
+    margin-top: -10px;
+  }
+
+  .network-name {
+    margin-bottom: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bottom-social-buttons {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bottom-social-buttons .social-icon {
+    font-size: 20px;
+  }
+
+  .networks-grid {
+    display: inline;
+    border: 0;
+  }
+
+  .address-row {
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .copy-btn {
+    align-self: flex-end;
+  }
+
+  .network-name {
+    margin-right: 50px;
+  }
+
+  .da-dp-block .social-btn.donation-alerts {
     width: 38px;
     height: 46px;
     border-radius: 50%;
   }
 
-  .social-btn.donatpay {
+  .da-dp-block .social-btn.donatpay {
     width: 38px;
     height: 46px;
     border-radius: 50%;
+  }
+
+  .main-content {
+    padding-top: 70px;
+    padding-bottom: 90px;
   }
 }
