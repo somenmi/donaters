@@ -863,6 +863,11 @@
     padding: 0;
   }
 
+  .widget-view {
+    text-align: left;
+    margin-top: 34px;
+  }
+
   .widget-container {
     padding: 0 10px;
     max-width: 100%;
