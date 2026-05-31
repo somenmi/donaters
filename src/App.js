@@ -399,7 +399,7 @@ function App() {
                                 <span>Есть как "<s1>DonationAlerts</s1>", так и "<s2>DonatPay</s2>", также можно <s3>криптовалютой</s3>.</span>
                             </div>
                         </div>
-                        <a href="https://www.donationalerts.com/r/comxalta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">
+                        <a href="https://www.donationalerts.com/r/comxajlta_x_awalores" target="_blank" rel="noopener noreferrer" className="social-btn donation-alerts">
                             <img src="/images/da.svg" alt="DonationAlerts" className="social-icon custom-icon" />
                             DonationAlerts
                         </a>
